@@ -7,7 +7,7 @@ const userCourseController = require('../controllers/userCourseController');
 router.post('/user-courses', userCourseController.enrollUserInCourse);
 
 // Route to get all user-course enrollments
-router.get('/user-courses', userCourseController.getAllUserCourseEnrollments);
+router.get('/user-courses/:user_id', userCourseController.getAllUserCourseEnrollments);
 
 // Other CRUD routes for user-course enrollments (update, delete) can be implemented similarly
 
