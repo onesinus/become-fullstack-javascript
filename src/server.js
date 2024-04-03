@@ -5,6 +5,7 @@ const courseRoutes = require('./routes/courseRoutes');
 const userRoutes = require('./routes/userRoutes');
 const userCourseRoutes = require('./routes/userCourseRoutes');
 const authRoutes = require('./routes/authRoutes');
+const { verifyToken } = require('./middlewares/authMiddleware');
 
 // Load controllers
 const indexController = require('./controllers/indexController');
@@ -18,6 +19,14 @@ app.use(express.json());
 // MongoDB connection
 connectToDatabase()
   .then(() => {
+    // Apply verifyToken middleware globally for all routes except root ("/")
+    app.use((req, res, next) => {
+      if (req.path === '/' || req.path === '/register' || req.path === '/login') {
+        return next(); // Skip token verification for root, user registration, and login routes
+      }
+      verifyToken(req, res, next); // Apply token verification for all other routes
+    });
+
     // Define your routes and other middleware here
     app.get('/', indexController.getIndex);
     app.use(courseRoutes);
