@@ -25,6 +25,23 @@ const getAllCourses = async (req, res) => {
   }
 };
 
+const getCourseById = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const course = await Course.findById(courseId);
+    
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+
+    return res.status(200).json(course);
+  } catch (error) {
+    console.error('Error fetching course by ID:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 // Controller function to update a course by ID
 const updateCourse = async (req, res) => {
   try {
@@ -59,6 +76,7 @@ const deleteCourse = async (req, res) => {
 module.exports = {
   createCourse,
   getAllCourses,
+  getCourseById,
   updateCourse,
   deleteCourse
 };
