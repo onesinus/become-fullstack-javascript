@@ -1,6 +1,9 @@
 const express = require('express');
 
 const { connectToDatabase } = require('./db');
+const courseRoutes = require('./routes/courseRoutes');
+const userRoutes = require('./routes/userRoutes');
+const userCourseRoutes = require('./routes/userCourseRoutes');
 
 // Load controllers
 const indexController = require('./controllers/indexController');
@@ -16,6 +19,9 @@ connectToDatabase()
   .then(() => {
     // Define your routes and other middleware here
     app.get('/', indexController.getIndex);
+    app.use(courseRoutes);
+    app.use(userRoutes);
+    app.use(userCourseRoutes);
 
     // Start the server
     app.listen(PORT, () => {
