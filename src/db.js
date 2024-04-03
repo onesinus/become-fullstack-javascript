@@ -1,8 +1,8 @@
 // src/db.js
 const mongoose = require('mongoose');
 
-const MONGODB_URI = 'mongodb://localhost:27017'; // Change this to your MongoDB URI
-const DATABASE_NAME = 'private_course_apps'; // Change this to your database name
+const MONGODB_URI = process.env.MONGODB_URI; 
+const DATABASE_NAME = process.env.DATABASE_NAME;  
 
 let dbInstance;
 
