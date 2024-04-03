@@ -1,4 +1,6 @@
 const express = require('express');
+const cors = require('cors');
+
 require('dotenv').config();
 
 const { connectToDatabase } = require('./db');
@@ -12,14 +14,17 @@ const { verifyToken } = require('./middlewares/authMiddleware');
 const indexController = require('./controllers/indexController');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware to handle JSON requests
-app.use(express.json());
+const PORT = process.env.PORT || 3001;
 
 // MongoDB connection
 connectToDatabase()
   .then(() => {
+    app.use(cors({
+      origin: 'http://localhost:3000'
+    }));
+    
+    app.use(express.json());
+
     // Apply verifyToken middleware globally for all routes except root ("/")
     app.use((req, res, next) => {
       if (req.path === '/' || req.path === '/register' || req.path === '/login') {
