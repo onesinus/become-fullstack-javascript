@@ -25,10 +25,40 @@ const getAllCourses = async (req, res) => {
   }
 };
 
-// Other CRUD operations for courses (update, delete) can be implemented similarly
+// Controller function to update a course by ID
+const updateCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, price } = req.body;
+    const updatedCourse = await Course.findByIdAndUpdate(id, { name, price }, { new: true });
+    if (!updatedCourse) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    res.json({ message: 'Course updated successfully', course: updatedCourse });
+  } catch (error) {
+    console.error('Error updating course:', error);
+    res.status(500).json({ error: 'Failed to update course' });
+  }
+};
+
+// Controller function to delete a course by ID
+const deleteCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedCourse = await Course.findByIdAndDelete(id);
+    if (!deletedCourse) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    res.json({ message: 'Course deleted successfully', course: deletedCourse });
+  } catch (error) {
+    console.error('Error deleting course:', error);
+    res.status(500).json({ error: 'Failed to delete course' });
+  }
+};
 
 module.exports = {
   createCourse,
-  getAllCourses
-  // Add other CRUD controller functions here
+  getAllCourses,
+  updateCourse,
+  deleteCourse
 };

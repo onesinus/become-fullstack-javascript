@@ -9,6 +9,10 @@ router.post('/courses', courseController.createCourse);
 // Route to get all courses
 router.get('/courses', courseController.getAllCourses);
 
-// Other CRUD routes for courses (update, delete) can be implemented similarly
+// Route to update a course by ID
+router.put('/courses/:id', courseController.updateCourse);
+
+// Route to delete a course by ID
+router.delete('/courses/:id', courseController.deleteCourse);
 
 module.exports = router;
